@@ -17,10 +17,10 @@
           <SearchIcon />
           内容检索
         </router-link>
-        <div class="nav-link nav-parent" :class="{ active: recallSection }">
+        <router-link to="/knowledge-recall" class="nav-link nav-parent" :class="{ active: recallSection }">
           <RecallIcon />
           语义召回
-        </div>
+        </router-link>
         <router-link to="/knowledge-recall" class="nav-link nav-sub" :class="{ active: recallHome }">
           召回服务
         </router-link>

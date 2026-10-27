@@ -258,11 +258,20 @@ function confirmDelete() {
 
 async function copy(text) {
   if (copyDisabled.value) return
+  const write = navigator.clipboard?.writeText(text)
   try {
-    await navigator.clipboard.writeText(text)
+    await Promise.race([
+      write ?? Promise.reject(new Error('no clipboard')),
+      new Promise((_, reject) => {
+        window.setTimeout(() => reject(new Error('clipboard timeout')), 800)
+      }),
+    ])
   } catch {
     const area = document.createElement('textarea')
     area.value = text
+    area.setAttribute('readonly', '')
+    area.style.position = 'fixed'
+    area.style.left = '-9999px'
     document.body.appendChild(area)
     area.select()
     document.execCommand('copy')
